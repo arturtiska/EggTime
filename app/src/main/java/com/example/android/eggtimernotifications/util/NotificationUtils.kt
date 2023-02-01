@@ -18,6 +18,7 @@ private val FLAGS = 0
 
 //TODO: Etapa 1.1 função de extensão para enviar mensagens (GIVEN)
 
+
 fun NotificationManager.sendNotification(messageBody: String, applicationContext: Context) {
     // Criar a intenção de conteúdo para a notificação, que é iniciada
     // TODO: Etapa 1.11 criar intenção
@@ -32,8 +33,22 @@ fun NotificationManager.sendNotification(messageBody: String, applicationContext
     )
 
     // TODO: Etapa 2.0 adicionar estilo
+    val eggImage = BitmapFactory.decodeResource(
+        applicationContext.resources,
+        R.drawable.cooked_egg
+    )
+
+    val bigPicStyle = NotificationCompat.BigPictureStyle()
+        .bigPicture(eggImage)
+        .bigLargeIcon(null)
 
     // TODO: Passo 2.2 adicionar ação de soneca
+    val snoozeIntent = Intent(applicationContext, SnoozeReceiver::class.java)
+    val snoozePendingIntent: PendingIntent = PendingIntent.getBroadcast(
+        applicationContext,
+        REQUEST_CODE,
+        snoozeIntent,
+        FLAGS)
 
     // TODO: Etapa 1.2 obter uma instância do NotificationCompat.Builder
     val builder = NotificationCompat.Builder(
@@ -46,20 +61,33 @@ fun NotificationManager.sendNotification(messageBody: String, applicationContext
         .setSmallIcon(R.drawable.cooked_egg)
         .setContentTitle(applicationContext.getString(R.string.notification_title))
         .setContentText(messageBody)
-        .setContentText(contentPendingIntent.toString())
+        .setContentIntent(contentPendingIntent)
         .setAutoCancel(true)
 
     // TODO: Etapa 1.13 definir a intenção do conteúdo
 
         // TODO: Etapa 2.1 Adicionar estilo ao construtor
+        .setStyle(bigPicStyle)
+        .setLargeIcon(eggImage)
 
         // TODO: Passo 2.3 adicionar ação de soneca
-
+        .addAction(
+            R.drawable.egg_icon,
+            applicationContext.getString(R.string.snooze),
+            snoozePendingIntent
+        )
         // TODO: Etapa 2.5 definir prioridade
+        .setPriority(NotificationCompat.PRIORITY_HIGH)
 
     // TODO: Etapa 1.4 Notificação de chamada
     notify(NOTIFICATION_ID, builder.build())
 
+
+
 }
 
 // TODO: Passo 1.14 Cancelar todas as notificações
+
+fun NotificationManager.cancelNotifications() {
+    cancelAll()
+}
