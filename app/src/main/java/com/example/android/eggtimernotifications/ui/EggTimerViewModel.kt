@@ -77,7 +77,7 @@ class EggTimerViewModel(private val app: Application) : AndroidViewModel(app) {
 
         timerLengthOptions = app.resources.getIntArray(R.array.minutes_array)
 
-        //If alarm is not null, resume the timer back for this alarm
+        //Se o alarme não for nulo, retome o temporizador de volta para este alarme
         if (_alarmOn.value!!) {
             createTimer()
         }
@@ -85,9 +85,9 @@ class EggTimerViewModel(private val app: Application) : AndroidViewModel(app) {
     }
 
     /**
-     * Turns on or off the alarm
+     * Liga ou desliga o alarme
      *
-     * @param isChecked, alarm status to be set.
+     * @param éVerificado, o status do alarme a ser definido.
      */
     fun setAlarm(isChecked: Boolean) {
         when (isChecked) {
@@ -97,16 +97,16 @@ class EggTimerViewModel(private val app: Application) : AndroidViewModel(app) {
     }
 
     /**
-     * Sets the desired interval for the alarm
+     * Define o intervalo desejado para o alarme
      *
-     * @param timerLengthSelection, interval timerLengthSelection value.
+     * @param timerLengthSelection, intervalo timerLengthSelection valor.
      */
     fun setTimeSelected(timerLengthSelection: Int) {
         _timeSelection.value = timerLengthSelection
     }
 
     /**
-     * Creates a new alarm, notification and timer
+     * Cria um novo alarme, notificação e temporizador
      */
     private fun startTimer(timerLengthSelection: Int) {
         _alarmOn.value?.let {
@@ -118,9 +118,10 @@ class EggTimerViewModel(private val app: Application) : AndroidViewModel(app) {
                 }
                 val triggerTime = SystemClock.elapsedRealtime() + selectedInterval
 
-                // TODO: Step 1.5 get an instance of NotificationManager and call sendNotification
+                //TODO: Etapa 1.5 obter uma instância do NotificationManager e chamar sendNotification
 
-                // TODO: Step 1.15 call cancel notification
+
+                //TODO: Etapa 1.15 notificação de cancelamento de chamada
 
                 AlarmManagerCompat.setExactAndAllowWhileIdle(
                     alarmManager,
@@ -138,7 +139,7 @@ class EggTimerViewModel(private val app: Application) : AndroidViewModel(app) {
     }
 
     /**
-     * Creates a new timer
+     * Cria um novo temporizador
      */
     private fun createTimer() {
         viewModelScope.launch {
@@ -160,7 +161,7 @@ class EggTimerViewModel(private val app: Application) : AndroidViewModel(app) {
     }
 
     /**
-     * Cancels the alarm, notification and resets the timer
+     * Cancela o alarme, a notificação e redefine o temporizador
      */
     private fun cancelNotification() {
         resetTimer()
@@ -168,7 +169,7 @@ class EggTimerViewModel(private val app: Application) : AndroidViewModel(app) {
     }
 
     /**
-     * Resets the timer on screen and sets alarm value false
+     * Redefine o temporizador na tela e define o valor de alarme false
      */
     private fun resetTimer() {
         timer.cancel()
